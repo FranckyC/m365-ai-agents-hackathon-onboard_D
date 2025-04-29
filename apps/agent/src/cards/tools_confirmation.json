@@ -1,0 +1,24 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.6",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${message}",
+            "weight": "default",
+            "wrap": true
+        },
+        {
+            "type": "Container",
+            "$data": "${data}",
+            "items": [
+                {
+                    "type": "CodeBlock",
+                    "codeSnippet": "Function: ${name} \nParameters: ${jsonStringify(args)}",
+                    "language": "Json"
+                }
+            ]
+        }
+    ]
+}

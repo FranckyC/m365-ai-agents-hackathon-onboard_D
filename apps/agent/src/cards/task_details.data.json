@@ -1,0 +1,12 @@
+{
+    "answer": "Hello Franck! This is a friendly reminder on your onboarding journey. Here are your current tasks summarized by importance, priority, and due dates:",
+    "data": {
+        "planId": "BYU7JhKq_0iwZihM0QVsgGUACiT-",
+        "title": "Register insurance benefits",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent finibus ex sit amet lacinia rhoncus. Donec tincidunt sem eu sapien scelerisque scelerisque. Maecenas ac volutpat nulla. Duis et ipsum mollis, elementum leo ac, condimentum lectus. Donec vitae justo at elit rutrum auctor et non mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam tincidunt, lectus ut tincidunt finibus, ipsum nunc semper massa, quis euismod augue odio sit amet libero. In hac habitasse platea dictumst. Phasellus blandit a nunc sit amet venenatis. Nullam mattis commodo purus, porta tincidunt orci fermentum id",
+        "priority": 5,
+        "startDateTime": "2025-05-16T10:00:00.000Z",
+        "dueDateTime": "2025-05-16T10:00:00.000Z",
+        "deepLink": "https://planner.cloud.microsoft/webui/plan/BYU7JhKq_0iwZihM0QVsgGUACiT-/view/board/task/3xYR91_hlUGtpuBGASV21mUAIZQR"
+    }
+}

@@ -1,0 +1,64 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "weight": "Bolder",
+                            "text": "[${data.title}](${data.deepLink})",
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "spacing": "None",
+                            "text": "{{DATE(${formatDateTime(data.dueDateTime, 'yyyy-MM-ddTHH:mm:ssZ')},SHORT)}}",
+                            "isSubtle": true,
+                            "wrap": true,
+                            "$when": "${not(empty(data.dueDatetime))}"                        
+                        }
+                    ],
+                    "width": "stretch"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "Badge",
+                            "text": "${if(lessOrEquals(data.priority, 1), 'High importance', if(and(greater(data.priority, 1),lessOrEquals(data.priority, 4)), 'High importance',if(and(greater(data.priority, 4),lessOrEquals(data.priority, 7)), 'Medium importance',if(and(greater(data.priority, 7),lessOrEquals(data.priority, 10)), 'Low importance',''))))}",
+                            "size": "Large",
+                            "style": "${if(lessOrEquals(data.priority, 1), 'Attention', if(and(greater(data.priority, 1),lessOrEquals(data.priority, 4)), 'Attention',if(and(greater(data.priority, 4),lessOrEquals(data.priority, 7)), 'Warning',if(and(greater(data.priority, 7),lessOrEquals(data.priority, 10)), 'Informative',''))))}",
+                            "icon": "ClipboardTask",
+                            "wrap": true
+                        }   
+                    ],
+                    "width": "auto"
+                }
+            ]
+        },
+        {
+            "type": "TextBlock",
+            "text": "${data.summary}",
+            "wrap": true,
+            "$when": "${not(empty(data.summary))}"
+        },
+        {
+            "type": "FactSet",
+            "facts": [
+                {
+    
+                    "title": "Start time",
+                    "value": "{{DATE(${data.startTime},SHORT)}}",
+                    "$when": "${not(empty(data.startTime))}"
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.6"
+}

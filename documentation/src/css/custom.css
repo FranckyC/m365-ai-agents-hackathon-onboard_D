@@ -1,0 +1,48 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #D04A02;
+  --ifm-color-primary-dark: #FFB600;
+  --ifm-color-primary-darker: #EB8C00;
+  --ifm-color-primary-darkest: #D04A02;
+  --ifm-color-primary-light: #FB7C4D;
+  --ifm-color-primary-lighter: #FDAB8D;
+  --ifm-color-primary-lightest: #FEDACC;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-svg-text-color: #000;
+  --pnpsearch-colorPrimary: #D04A02;
+  --pnpsearch-colorPrimaryHover: #FFB600;
+  --pnpsearch-textColor: #1E252B;
+  --pnpsearch-colorBackgroundDarkPrimary: #3b3b3b;
+  --pnpsearch-textColorDark: #FFF;
+  --pnpsearch-fontFamilyPrimary: "Segoe UI";
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #D04A02;
+  --ifm-color-primary-dark: #FFB600;
+  --ifm-color-primary-darker: #EB8C00;
+  --ifm-color-primary-darkest: #D04A02;
+  --ifm-color-primary-light: #FB7C4D;
+  --ifm-color-primary-lighter: #FDAB8D;
+  --ifm-color-primary-lightest: #FEDACC;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-svg-text-color: #fff;
+  --pnpsearch-colorPrimary: #D04A02;
+  --pnpsearch-colorPrimaryHover: #FFB600;
+  --pnpsearch-textColor: #1E252B;
+  --pnpsearch-colorBackgroundDarkPrimary: #3b3b3b;
+  --pnpsearch-textColorDark: #FFF;
+  --pnpsearch-fontFamilyPrimary: "Segoe UI"
+}

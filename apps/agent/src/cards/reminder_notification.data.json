@@ -1,0 +1,33 @@
+{
+    "answer": "Hello Franck! This is a friendly reminder on your onboarding journey. Here are your current tasks summarized by importance, priority, and due dates:",
+    "data": 
+        [
+            {
+                "planId": "BYU7JhKq_0iwZihM0QVsgGUACiT-",
+                "title": "Register insurance benefits",
+                "description": null,
+                "priority": 5,
+                "startDateTime": "2025-05-16T10:00:00.000Z",
+                "dueDateTime": null,
+                "deepLink": "https://planner.cloud.microsoft/webui/plan/BYU7JhKq_0iwZihM0QVsgGUACiT-/view/board/task/3xYR91_hlUGtpuBGASV21mUAIZQR"
+            },
+            {
+                "planId": "BYU7JhKq_0iwZihM0QVsgGUACiT-",
+                "title": "Timesheet tool training",
+                "description": null,
+                "priority": 1,
+                "startDateTime": "2025-04-14T10:00:00.000Z",
+                "dueDateTime": null,
+                "deepLink": "https://planner.cloud.microsoft/webui/plan/BYU7JhKq_0iwZihM0QVsgGUACiT-/view/board/task/o7pZPx6KL0-NSrppqiuvUmUAKRkb"
+            },
+            {
+                "planId": "BYU7JhKq_0iwZihM0QVsgGUACiT-",
+                "title": "Cybersecurity awareness training",
+                "description": null,
+                "priority": 5,
+                "startDateTime": null,
+                "dueDateTime": "2025-04-18T10:00:00.000Z",
+                "deepLink": "https://planner.cloud.microsoft/webui/plan/BYU7JhKq_0iwZihM0QVsgGUACiT-/view/board/task/vF8IrY61UE2fQ5qOAr2-0mUAJHXi"
+            }       
+      ]
+}

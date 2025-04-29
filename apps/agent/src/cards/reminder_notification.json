@@ -1,0 +1,113 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.6",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${answer}",
+            "weight": "default",
+            "wrap": true
+        },
+        {
+            "type": "Table",
+            "columns": [
+                {
+                    "width": 2
+                },
+                {
+                    "width": 1
+                }
+            ],
+            "rows": [
+                {
+                    "type": "TableRow",
+                    "cells": [
+                        {
+                            "type": "TableCell",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Task",
+                                    "wrap": true
+                                }
+                            ]
+                        },
+                        {
+                            "type": "TableCell",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "When its due?",
+                                    "wrap": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "$data": "${data}",
+                    "type": "TableRow",
+                    "cells": [
+                        {
+                            "type": "TableCell",
+                            "items": [
+                                {
+                                    "type": "ColumnSet",
+                                    "columns": [
+                                        {
+                                            "type": "Column",
+                                            "items": [
+                                                {
+                                                    "type": "Badge",
+                                                    "text": "${if(lessOrEquals(priority, 1), 'High importance', if(and(greater(priority, 1),lessOrEquals(priority, 4)), 'High importance',if(and(greater(priority, 4),lessOrEquals(priority, 7)), 'Medium importance',if(and(greater(priority, 7),lessOrEquals(priority, 10)), 'Low importance',''))))}",
+                                                    "size": "Large",
+                                                    "style": "${if(lessOrEquals(priority, 1), 'Attention', if(and(greater(priority, 1),lessOrEquals(priority, 4)), 'Attention',if(and(greater(priority, 4),lessOrEquals(priority, 7)), 'Warning',if(and(greater(priority, 7),lessOrEquals(priority, 10)), 'Informative',''))))}",
+                                                    "icon": "ClipboardTask",
+                                                    "wrap": true
+                                                }                                                
+                                            ],
+                                            "width": "auto"                                      
+                                        }, 
+                                        {
+                                            "type": "Column",
+                                            "items": [
+                                                {
+                                                    "type": "TextBlock",
+                                                    "text": "[${title}](${deepLink})",
+                                                    "wrap": true
+                                                }
+                                            ],
+                                            "width": "auto"                                         
+                                        }
+                                    ]
+                                }                                
+                            ]
+                        },                        
+                        {
+                            "type": "TableCell",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "{{DATE(${formatDateTime(dueDateTime, 'yyyy-MM-ddTHH:mm:ssZ')},SHORT)}}",
+                                    "$when": "${not(empty(dueDateTime))}",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "",
+                                    "$when": "${empty(dueDateTime)}",
+                                    "wrap": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "$when": "${not(empty(data))}"
+        }
+    ],
+    "msteams": {
+      "width": "Full"
+    }
+  }

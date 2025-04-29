@@ -1,0 +1,170 @@
+---
+description: "Home page"
+slug: /
+---
+
+import MsBanner from './img/banner.png';
+import OnBoardD from './img/onboard_d.png';
+import Architecture from './img/architecture.png'
+import ConversationExample1 from './img/conversation_example1.png';
+import ConversationExample2 from './img/conversation_example2.png';
+import ConversationExample3 from './img/conversation_example3.png';
+
+import Achinta from "./img/people/achinta.jpg";
+import Aslam from "./img/people/aslam.jpg";
+import Franck from "./img/people/franck.jpg";
+import Golnoosh from "./img/people/golnoosh.jpg";
+import Igor from "./img/people/igor.png";
+
+# Meet OnBoard_D, your HR onboading coach! 
+
+This solutions has been made as part of the [Microsoft AI Agents Hackathon](https://microsoft.github.io/AI_Agents_Hackathon/) held in April 2025.
+
+<div className='flex space-x-4 justify-center items-center'>
+    <div><img src={MsBanner} /></div>
+</div>
+
+<div className='flex space-x-4 justify-center items-center'>
+    <a href="https://www.linkedin.com/in/golnoosh-ameri/" target="_blank" className="hover:no-underline">
+        <div className="text-homeLink p-4 flex flex-col justify-center text-center">
+            <div><img className="rounded-full w-24" src={Golnoosh}/></div>
+            <div className="font-bold">Golnoosh Ameri</div>
+        </div>
+    </a>
+    <a href="https://www.linkedin.com/in/igorbertnyk/" target="_blank" className="hover:no-underline">
+    <div className="text-homeLink p-4 flex flex-col justify-center text-center">
+        <div><img className="rounded-full w-24" src={Igor}/></div>
+        <div className="font-bold">Igor Bertnyk</div>
+    </div>
+    </a>
+    <a href="https://www.linkedin.com/in/franckcornu/" target="_blank" className="hover:no-underline">
+    <div className="text-homeLink p-4 flex flex-col justify-center text-center">
+        <div><img className="rounded-full w-24" src={Franck}/></div>
+        <div className="font-bold">Franck Cornu</div>
+    </div>
+    </a>
+    <a href="#" target="_blank" className="hover:no-underline">
+    <div className="text-homeLink p-4 flex flex-col justify-center text-center">
+        <div><img className="rounded-full w-24" src={Aslam}/></div>
+        <div className="font-bold">Mohamed Iftiquar Aslam Hameed</div>
+    </div>
+    </a>
+    <a href="https://www.linkedin.com/in/achinta-sarkar-1036361b/" target="_blank" className="hover:no-underline">
+    <div className="text-homeLink p-4 flex flex-col justify-center text-center">
+        <div><img className="rounded-full w-24" src={Achinta}/></div>
+        <div className="font-bold">Achinta Sarkar</div>
+    </div>
+    </a>
+</div>
+
+## What is it?
+
+<div className='flex space-x-4 justify-center items-center'>
+
+    <div className='font-bold flex items-center flex-col'><img className='w-[600px]' src={OnBoardD} />Onboard_D</div>
+    <div>Onboarding processes can sometimes be overwhelming for new employees, with numerous tasks to complete, trainings to attend, and people to meet. Not all companies have a clear onboarding process or a dedicated coach to guide new hires effectively. To ensure employees are not left to navigate this alone and to provide a great experience, we created **OnBoard_D**. This dedicated AI assistant helps new employees get started by answering frequently asked questions and proactively notifying them of tasks they need to complete according to a specific onboarding plan set by the HR department.</div>
+</div>
+
+<br/>
+
+:::warning Don't do this at home!
+**This solution is not suitable for production! It has been made in less than 3 weeks for the sole purpose of this Hackathon**
+:::
+
+It includes the following features:
+
+- **Provide assistance with HR-related inquiries:** Address a wide range of questions that employees may have, including policies, benefits, procedures, and other human resources topics.
+- **Summarize the current tasks assigned to employees:** Offer clear and concise summaries of tasks or responsibilities assigned to individuals, ensuring they have a comprehensive understanding of their workload.
+- **Proactively notify employees about tasks and critical attention points in their onboarding plan:** Deliver timely reminders and updates regarding assigned tasks, deadlines, and important milestones to guide employees through the onboarding process effectively.
+- **Offer a customizable solution for administrators:** Provide administrators with the flexibility to tailor systems or functionalities to meet their specific needs and organizational requirements.
+
+Here are some conversations examples with **OnBoard_D** (click on the image to get the full view):
+
+TODO Screenshot basic RAG on docs
+
+<ul class="mt-16 grid grid-cols-1 gap-6 text-center text-slate-700 md:grid-cols-3 list-none">
+      <li class="rounded-xl bg-slate-500 bg-opacity-45 px-6 py-8 shadow-sm">
+            <img src={ConversationExample1} />
+            <div className='font-bold'>Get current assigned tasks for user</div>
+      </li>
+      <li class="rounded-xl bg-slate-500 bg-opacity-45 px-6 py-8 shadow-sm">
+            <img src={ConversationExample2} />
+            <div className='font-bold'>Get details about a specific task from the list</div>
+      </li>
+      <li class="rounded-xl bg-slate-500 bg-opacity-45 px-6 py-8 shadow-sm">
+            <img src={ConversationExample3} />
+            <div className='font-bold'>Update task status with a "Human-in-the-loop" step</div>
+      </li>
+      
+    </ul>
+
+
+## What concepts it showcases?
+
+Creating agents that tell jokes or generate cat images can be fun but not that useful in your work day-to-day life. We wanted to create something meaningfull and reusable enough to be used by any company on top of Microsoft 365 leveraging AI where it is good at: understanding intents, analyzing amd summarizing stuff. Therefore, the **OnBoard_D** agent showcases the following:
+
+- Integration with Microsoft 365 as part of an end-to-end solution, leveraging Teams, Planner and SharePoint.
+- Sending proactive agent nofications to users.
+- Handling agent authentication with both delegated (SSO) and application permissions (proactive notifiations) whithin Microsoft Teams and the Microsoft Graph API.
+- Handling multiple tools whithin an agent performing different set of actions.
+- Handling agent tool outputs and artifacts to display data in adaptive cards.
+- Handling Human-In-The-Loop pattern in pair with the Bot Framework for sensitive actions, like POST requests initiated by tools.
+
+:::info
+For the purpose of this hackathon (and also because of time!), we only implemented a small set of features. 
+:::
+
+## How this works?
+
+Here is the overal architecture of the solution with the key components:
+
+<div className='flex space-x-4 justify-center items-center'>
+    <div><img src={Architecture}/></div>
+</div>
+
+The solution is split in three main parts:
+
+### Setup the employee plan
+
+Before interacting with the agent, the onboarding plan for the new employee needs to be created. The solutions uses a Microsoft 365 group for HR staff members to manage new employee hires. The flow is as follow:
+
+1. First, HR staff create a new Planner plan in the group that will act as default oboarding plan template for all employees.
+2. When a new employee is hired, HR staff add a new entry in a dedicated SharePoint employees list with the planned start date.
+3. A Power Automate is automatically triggered performing the following actions:
+    - Get the onboarding template and and duplicate it for the new employee with tasks assinged to him.
+    - Wait until the employee start date is reached. When reached, sends notification to the agent every X days (10 minutes in that demo) for that specific employee.
+
+### Index HR content
+
+This part is aimed to index HR so employees can ask general HR related questions to the agent. The index is also used to retrieve specific documents associated to tasks as references (for instance documents explaning a task in depth beyond the traditionnal description field).
+
+1. HR Staff uploads relevant document in a dedicated SharePoint library
+2. Optionally, they can add the document as reference for a particular tasks in the template, giving employee material to clearly understand the task.
+3. When a document is updated in the library, a Logic App is triggered, indexing the document in Azure AI Search, using Azure Open AI to generate vector embeddings.
+
+### Interact with the agent
+
+Last but not least, employee can engage directly with the agent through Teams by asking questions about its current tasks created in its onboarding plan, or get details about specific task.
+He can also ask general question related to HR. Depending on the request, the agents uses multiple tools to communicate with the different systems (Planner, SharePoint and Azure AI Search).
+For more sensitive tasks, like updating the status of a particular task (ex: complete it), the agent will ask for an explicit confirmation first (_"human in the loop"_).
+
+The agent will also notifies the user and remind him his current task every X days ('X' being configurable).
+
+## What technologies are used?
+
+This solution is built and/or involves the following technologies:
+
+| Technology | Used for |
+|------------|----------|
+| Azure OpenAI | LLM model to answer user questions. We use the `gpt-4o-mini` model for agent (better suited for chat completions) and `text-embedding-3-large` for embeddings both from OpenAI. |
+| Azure AI Search | Indexing HR documents from SharePoint | 
+| Microsoft Planner | Onboarding plan definiton for both template and users.
+| SharePoint | Store HR documents in a library adn mange employes onboarding list. |
+| Microsoft Bot Framework | User interactions wthihin Microsoft Teams handling dialogs and SSO authentication.
+| Langchain JS | LLM Orchestration with the Bot Framework (tools definition and calls, "human-in-the-loop") |
+| Power Automate | Employee plan setup and agent notifications.
+| Azure Logic App | HR documents indexing logic. 
+
+## Test it!
+
+Now you now what it is and how this works, let test it! First you'll have to [setup your environment](./setup-environment).
