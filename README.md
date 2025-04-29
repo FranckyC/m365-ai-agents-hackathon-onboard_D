@@ -1,4 +1,4 @@
-# Microsoft AI Agents Hackathon 2025 - OnBoard_D solution
+# Microsoft AI Agents Hackathon 2025 - Onboard_D solution
 
 Meet **Onboard-D**, an amployee onboarding AI solution built for the Microsoft AI Agents Hackathon 2025.
 
@@ -14,7 +14,7 @@ Meet **Onboard-D**, an amployee onboarding AI solution built for the Microsoft A
 
 ## What is it?
 
-Onboarding processes can sometimes be overwhelming for new employees, with numerous tasks to complete, trainings to attend, and people to meet. Not all companies have a clear onboarding process or a dedicated coach to guide new hires effectively. To ensure employees are not left to navigate this alone and to provide a great experience, we created **OnBoard_D**. This dedicated AI assistant helps new employees get started by answering frequently asked questions and proactively notifying them of tasks they need to complete according to a specific onboarding plan set by the HR department.
+Onboarding processes can sometimes be overwhelming for new employees, with numerous tasks to complete, trainings to attend, and people to meet. Not all companies have a clear onboarding process or a dedicated coach to guide new hires effectively. To ensure employees are not left to navigate this alone and to provide a great experience, we created **Onboard_D**. This dedicated AI assistant helps new employees get started by answering frequently asked questions and proactively notifying them of tasks they need to complete according to a specific onboarding plan set by the HR department.
 
 ### What are features:
 

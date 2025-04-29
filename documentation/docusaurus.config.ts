@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const config: Config = {
-  title: 'OnBoard_D AI Agent Solution',
+  title: 'Onboard_D AI Agent Solution',
   tagline: 'AI Agents Hackathon',
   favicon: 'img/favicon.ico',
   url: 'http://localhost:3000',
@@ -41,7 +41,7 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: 'OnBoard_D AI Agent Solution',
+      title: 'Onboard_D AI Agent Solution',
       logo: {
         alt: 'Logo',
         src: 'img/onboard_d.png',

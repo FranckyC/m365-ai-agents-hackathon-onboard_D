@@ -4,7 +4,7 @@
     "msteams": {
         "teamsAppId": null
     },
-    "description": "OnBoard_D HR Assistant",
+    "description": "Onboard_D HR Assistant",
     "engines": {
         "node": "18 || 20"
     },
