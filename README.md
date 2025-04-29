@@ -6,7 +6,8 @@ Meet **Onboard-D**, an amployee onboarding AI solution built for the Microsoft A
     <img src="./documentation/docs/img/onboard_d.png">
 </p>
 
-> Live 📖documentation of the solution is available [here](https://franckyc.github.io/m365-ai-agents-hackathon-onboard_D/) <br/><br/>
+> 📖Live documentation of the solution is available [here](https://franckyc.github.io/m365-ai-agents-hackathon-onboard_D/) <br/>
+> 🎥 Presentation video is available [here](https://franckcornu-my.sharepoint.com/:v:/p/franck/EWhhgVhhedJDloMq0YXN5vgBypTjn_qWTYj0KqytNA0jSw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=GUYSUZ). <br/><br/>
 > You can also build the documentation locally from the `./documentation` folder running the following commands: <br/>
 > - `npm i` <br/>
 > - `npm run start`
