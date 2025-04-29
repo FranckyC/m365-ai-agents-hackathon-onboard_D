@@ -16,7 +16,7 @@ Meet **Onboard_D**, an amployee onboarding AI solution built for the Microsoft A
 
 Onboarding processes can sometimes be overwhelming for new employees, with numerous tasks to complete, trainings to attend, and people to meet. Not all companies have a clear onboarding process or a dedicated coach to guide new hires effectively. To ensure employees are not left to navigate this alone and to provide a great experience, we created **Onboard_D**. This dedicated AI assistant helps new employees get started by answering frequently asked questions and proactively notifying them of tasks they need to complete according to a specific onboarding plan set by the HR department.
 
-### What are features:
+### What features it provides?
 
 - **Provide assistance with HR-related inquiries:** Address a wide range of questions that employees may have, including policies, benefits, procedures, and other human resources topics.
 
@@ -44,13 +44,13 @@ Onboarding processes can sometimes be overwhelming for new employees, with numer
 
 ## What concepts it showcases?
 
-Creating agents that tell jokes or generate cat images can be fun but not that useful in your work day-to-day life. We wanted to create something meaningfull and reusable enough to be used by any company on top of Microsoft 365 and leveraging AI where it is good at: understanding intents, analyzing amd summarizing stuff. Therefore, the OnBoard_DD solutions showcases the following:
+Creating agents that tell jokes or generate cat images can be fun but not that useful in your work day-to-day life. We wanted to create something meaningfull and reusable enough to be used by any company on top of Microsoft 365 and leveraging AI where it is good at: understanding intents, analyzing and summarizing stuff. Therefore, the OnBoard_D solution showcases the following:
 
 - Integration with Microsoft 365 as part of an end-to-end solution, leveraging Teams, Planner and SharePoint.
 - Sending proactive agent nofications to users.
-- Handling agent authentication with both delegated (SSO) and application permissions (proactive notifiations) whithin Microsoft Teams and the Microsoft Graph API.
-- Handling multiple tools whithin an agent performing different set of actions.
-- Handling agent tool outputs and artifacts to display data in adaptive cards.
+- Handling agent authentication with both delegated (SSO) and application permissions (proactive notifications) with Microsoft Teams and the Microsoft Graph API.
+- Handling multiple AI tools whithin an agent performing different set of actions.
+- Handling agent tool outputs and artifacts effectively to display data in adaptive cards.
 - Handling Human-In-The-Loop pattern in pair with the Bot Framework for sensitive actions, like POST requests initiated by tools.
 
 Ready to start? [Follow the guide 📖](https://franckyc.github.io/m365-ai-agents-hackathon-onboard_D/)!
