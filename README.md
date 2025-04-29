@@ -2,6 +2,10 @@
 
 Meet **Onboard-D**, an amployee onboarding AI solution built for the Microsoft AI Agents Hackathon 2025.
 
+<p align="center">
+    <img src="./documentation/docs/img/onboard_d.png">
+</p>
+
 > Live 📖documentation of the solution is available [here](https://franckyc.github.io/m365-ai-agents-hackathon-onboard_D/) <br/><br/>
 > You can also build the documentation locally from the `./documentation` folder running the following commands: <br/>
 > - `npm i` <br/>
@@ -17,13 +21,23 @@ Onboarding processes can sometimes be overwhelming for new employees, with numer
 
 - **Summarize the current tasks assigned to employees:** Offer clear and concise summaries of tasks or responsibilities assigned to individuals, ensuring they have a comprehensive understanding of their workload.
 
-!["Proactive notifications"](documentation/docs/img/conversation_example1.png)
+<p align="center">
+    <img width="500px" src="./documentation/docs/img/conversation_example1.png">
+</p>
 
 !["Task details"](documentation/docs/img/conversation_example2.png)
 
+- **Human-In-The-Loop** confirmation to avoid any mistakes.
+
+<p align="center">
+    <img width="500px" src="documentation/docs/img/conversation_example3.png">
+</p>
+
 - **Proactively notify employees about tasks and critical attention points in their onboarding plan:** Deliver timely reminders and updates regarding assigned tasks, deadlines, and important milestones to guide employees through the onboarding process effectively.
 
-!["Notification"](documentation/docs/img/reminder_notification.png)
+<p align="center">
+    <img width="500px" src="documentation/docs/img/reminder_notification.png">
+</p>
 
 - **Offer a customizable solution for administrators:** Provide administrators with the flexibility to tailor systems or functionalities to meet their specific needs and organizational requirements.
 
