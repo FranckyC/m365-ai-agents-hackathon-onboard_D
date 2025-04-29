@@ -1,13 +1,10 @@
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import {
-  CloudAdapter,
-  ConfigurationBotFrameworkAuthentication,
   ConfigurationServiceClientCredentialFactory,
 } from "botbuilder";
 
 // This bot's main dialog.
-import { config } from "./config";
 import {
   TeamsAdapter
 } from '@microsoft/teams-ai';
