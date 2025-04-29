@@ -8,37 +8,37 @@ import { EmployeeOnboardingAgent } from "./bot/EmployeeOnboardingAgent";
 import { INotificationRequest } from "./models/INotificationRequest";
 import { StorageHelper } from "./helpers/StorageHelper";
 import { TurnContext } from "botbuilder";
-import { agentSystemPrompt, AgentTools, StorageContainers } from "./common/Constants";
+import { agentSystemPrompt, StorageContainers } from "./common/Constants";
 import { BlobsStorage } from "botbuilder-azure-blobs";
-import { MemorySaver, task } from '@langchain/langgraph';
+import { MemorySaver } from '@langchain/langgraph';
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { AzureChatOpenAI } from '@langchain/openai';
 import { updateTaskCompletion, getTaskDetails, getUserTasks } from "./tools/plannerTools";
 import { searchGeneralContent, searchTaskReferenceContent } from "./tools/searchTools";
-import { z } from "zod"; 
 import { getTaskStructuredOutput } from "./tools/utilityTools";
+import { config, openaiConfig } from "./config";
 
-const userStorage = new BlobsStorage(process.env.BLOB_CONNECTION_STRING, StorageContainers.Users);
+const userStorage = new BlobsStorage(config.blobConnectionString, StorageContainers.Users);
 const agentTools = [getUserTasks, getTaskDetails, searchTaskReferenceContent, updateTaskCompletion, searchGeneralContent, getTaskStructuredOutput];
 
 const agentModel = new AzureChatOpenAI({
-  azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
-  azureOpenAIApiInstanceName: process.env.AZURE_OPENAI_ENDPOINT,
-  azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_DEPLOYMENT_NAME,
-  azureOpenAIApiVersion: process.env.AZURE_OPENAI_API_VERSION,
-  temperature: 0, // Don't want creativity here :D,
+  azureOpenAIApiKey: openaiConfig.azureOpenAIApiKey,
+  azureOpenAIApiInstanceName: openaiConfig.azureOpenAIApiInstanceName,
+  azureOpenAIApiDeploymentName: openaiConfig.azureOpenAIApiDeploymentName,
+  azureOpenAIApiVersion: openaiConfig.azureOpenAIApiVersion,
+  temperature: 0, // We don't want creativity here, only facts :D,
   cache: false,
-  verbose: true // Agent logs will appear in the terminal,
-})
+  verbose: true // Agent logs will appear in the terminal so you can see what is going on
+});
 
 const agentCheckpointer = new MemorySaver();
 
-// Create an agent with prebuilt StateGraph
+// Create a Langchain agent with prebuilt StateGraph
 const aiAgent = createReactAgent({
-  llm: agentModel,
-  tools: agentTools,
-  checkpointSaver: agentCheckpointer,
-  prompt: agentSystemPrompt,
+  llm: agentModel, // LLM used by the agent
+  tools: agentTools, // List of tools used by the agent
+  checkpointSaver: agentCheckpointer, // To be able to answer based on previous messages
+  prompt: agentSystemPrompt, // Main system prompt for the agent
   interruptBefore: ["tools"] // Human-in-the-loop
 });
 
@@ -77,14 +77,14 @@ expressApp.post("/api/notification", async (req, res) => {
 
   // Proactively notify the user (i.e continuing the conversation)
   adapter.continueConversationAsync(
-    process.env.BOT_ID,
+    config.botId,
     userInfos.value.conversationReference,
     async (context) => {
 
       const ref = TurnContext.getConversationReference(context.activity);
 
       await context.adapter.continueConversationAsync(
-        process.env.BOT_ID,
+        config.botId,
           ref,
           async (context) => {            
             await onboardingEmployeeAgent.notifyTasksSummary(context, userAadId);

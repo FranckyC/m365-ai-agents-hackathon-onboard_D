@@ -2,6 +2,9 @@ import { tool } from '@langchain/core/tools';
 import { z } from "zod";
 import { AgentTools } from '../common/Constants';
 
+/**
+ * Format task as structured output tool from other tool outputs
+ */
 export const getTaskStructuredOutput = tool(
 
     async (args: { task: any}) => {
@@ -26,5 +29,5 @@ export const getTaskStructuredOutput = tool(
         }).nullable()
       }).describe("the task details")
     }
-  )
+  );
     

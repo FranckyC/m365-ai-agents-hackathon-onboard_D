@@ -23,6 +23,8 @@ export class HumanInTheLoopDialog extends ComponentDialog {
         this.initialDialogId = WATERFALL_DIALOG;
     }
 
+    //#region Dialog steps
+
     private async confirmToolUsageStep(stepContext: WaterfallStepContext) {
 
         const modelData: IAgentStepData = stepContext.options as IAgentStepData;
@@ -46,6 +48,7 @@ export class HumanInTheLoopDialog extends ComponentDialog {
             ] as AIEntity[],
         };
         
+        // Use the default ConfirmPrompt to ask the user for confirmation
         return await stepContext.prompt(CONFIRM_PROMPT, confirmationCard);
     }
 
@@ -54,4 +57,6 @@ export class HumanInTheLoopDialog extends ComponentDialog {
         const userAnswer = stepContext.result;
         return await stepContext.endDialog({ userAnswer: userAnswer, modelData: stepContext.options});
     }
+
+    //#endregion
 }

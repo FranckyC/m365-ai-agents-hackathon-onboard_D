@@ -1,28 +1,19 @@
-// Import required bot services.
-// See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import {
-  ConfigurationServiceClientCredentialFactory,
-} from "botbuilder";
-
-// This bot's main dialog.
-import {
-  TeamsAdapter
-} from '@microsoft/teams-ai';
+import { ConfigurationServiceClientCredentialFactory} from "botbuilder";
+import { TeamsAdapter } from '@microsoft/teams-ai';
+import { config } from "./config";
 
 const adapter = new TeamsAdapter(
   {},
   new ConfigurationServiceClientCredentialFactory({
-      MicrosoftAppId: process.env.BOT_ID,
-      MicrosoftAppPassword: process.env.BOT_PASSWORD,
+      MicrosoftAppId: config.botId,
+      MicrosoftAppPassword: config.botPassword,
       MicrosoftAppType: 'MultiTenant'
   })
 );
 
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
-  // This check writes out errors to console log .vs. app insights.
-  // NOTE: In production environment, you should consider logging this to Azure
-  //       application insights.
+
   console.error(`\n [onTurnError] unhandled error: ${error}`);
 
   // Only send error message for user messages, not for other message types so the bot doesn't spam a channel or chat.

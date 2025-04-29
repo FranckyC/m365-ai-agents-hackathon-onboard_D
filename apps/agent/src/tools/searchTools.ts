@@ -3,16 +3,22 @@ import { AzureAISearchDataSourceOptions, AzureSearchService } from "../services/
 import { z } from "zod";
 import { AgentTools } from "../common/Constants";
 import { ISearchResult } from "../models/ISearchResult";
+import { openaiConfig, searchConfig } from "../config";
 
 const searchOptions: AzureAISearchDataSourceOptions = {
-  azureAISearchApiKey: process.env.AZSEARCH_API_KEY,
-  azureAISearchEndpoint: process.env.AZSEARCH_ENDPOINT,
-  azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
-  azureOpenAIEndpoint: process.env.AZURE_OPENAI_ENDPOINT,
-  azureOpenAIEmbeddingDeploymentName: process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
-  indexName: process.env.AZSEARCH_INDEX_NAME,
+  azureAISearchApiKey: searchConfig.azureAISearchApiKey,
+  azureAISearchEndpoint: searchConfig.azureAISearchEndpoint,
+  azureOpenAIApiKey: openaiConfig.azureOpenAIApiKey,
+  azureOpenAIEndpoint: openaiConfig.azureOpenAIApiInstanceName,
+  azureOpenAIEmbeddingDeploymentName: openaiConfig.azureOpenAIEmbeddingDeploymentName,
+  indexName: searchConfig.indexName
 };
 
+/**
+ * Search task reference content tool
+ * @args taskName the task name to search for
+ * @args references the references to search for
+ */
 export const searchTaskReferenceContent = tool(
 
     async (args: { taskName: string, references: string[] }) => {
@@ -43,6 +49,10 @@ export const searchTaskReferenceContent = tool(
     }
 );
 
+/**
+ * Search general content tool
+ * @args input the user input to search for
+ */
 export const searchGeneralContent = tool(
 
   async (args: { input: string }) => {

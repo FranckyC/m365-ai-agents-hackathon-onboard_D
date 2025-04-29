@@ -8,6 +8,9 @@ import { spConfig } from "../config";
 import { SharePointService } from '../services/SharePointService';
 import { AgentTools } from '../common/Constants';
 
+/**
+ * Get user tasks tool
+ */
 export const getUserTasks = tool(
   async (args: any, config: RunnableConfig) => {
    
@@ -40,6 +43,10 @@ export const getUserTasks = tool(
   }
 );
 
+/**
+ * Get task details tool  
+ * @args taskId the task ID to get the details for
+ */
 export const getTaskDetails = tool(
 
   async (args: { taskId: string}, config: RunnableConfig) => {
@@ -62,8 +69,13 @@ export const getTaskDetails = tool(
     }),
     responseFormat: "content_and_artifact"
   }
-)
+);
 
+/**
+ * Update task completion tool
+ * @args taskId the task ID to get the details for
+ * @args percentComplete the completion percentage of the task to be updated
+ */
 export const updateTaskCompletion = tool(
 
   async (args: { taskId: string, percentComplete: number}, config: RunnableConfig) => {
@@ -85,5 +97,5 @@ export const updateTaskCompletion = tool(
     }),
     responseFormat: "content"
   }
-)
+);
   

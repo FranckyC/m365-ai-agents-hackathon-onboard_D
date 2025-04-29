@@ -7,8 +7,17 @@ import NotificationMessageAdaptiveCard from "../cards/reminder_notification.json
 import TaskDetailsAdaptiveCard from "../cards/task_details.json";
 import { AgentTools } from "../common/Constants";
 
+/**
+ * Helper class to format the response from the LLM and send it to the user
+ */
 export class AnswerFormatHelper {
 
+    /**
+     * * Format the response from the LLM and send it to the user
+     * @param context The turn context
+     * @param llmResponse The response from the LLM
+     * @returns {Promise<void>} A promise that resolves when the message is sent
+     */
     public static async formatAgentResponse(context: TurnContext, llmResponse: any): Promise<void> {
 
         // Use the raw text answer from the LLM
@@ -21,6 +30,7 @@ export class AnswerFormatHelper {
         });
     
         if (lastIndex > -1) {
+            // If the last message is a tool call, we need to format the response according to the tool called. For specific tools, we use he artifact data to pass it diretly to adaptive card.
             switch (llmResponse.messages[lastIndex].name) {
 
                 case AgentTools.GetTasksForUsers:
@@ -39,6 +49,7 @@ export class AnswerFormatHelper {
                     break;
                         
                 default:
+                    // Regular text output
                     await context.sendActivity(llmResponseContent);
                     break;
             }

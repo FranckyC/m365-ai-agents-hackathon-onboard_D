@@ -16,7 +16,7 @@ import {
 } from "botbuilder";
 import { OnBehalfOfCredentialAuthConfig, OnBehalfOfUserCredential, TeamsBotSsoPrompt, TeamsBotSsoPromptSettings } from "@microsoft/teamsfx";
 import { config, oboAuthConfig } from "../config";
-import { agentSystemPrompt, AgentTools, MicrosoftGraphScopes } from "../common/Constants";
+import { AgentTools, MicrosoftGraphScopes } from "../common/Constants";
 import { HumanInTheLoopDialog } from "./humanInTheLoopDialog";
 import { TokenCredentialAuthenticationProvider } from "@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials";
 import { updateTaskCompletion, getTaskDetails, getUserTasks } from "../tools/plannerTools";
@@ -32,14 +32,31 @@ const TEAMS_SSO_PROMPT_ID = "TEAMS_SSO_DIALOG";
 
 // Reused from https://github.com/OfficeDev/teams-toolkit-samples/tree/dev/bot-sso/src
 
+/**
+ * Data to be passed on the human-in-the-loop dialog
+ * @interface IAgentStepData
+ */
 export interface IAgentStepData {
+  /**
+   * The LLM selected tool calls
+   */
   toolCalls: any[];
+
+  /**
+   * The SSO token used for authentication
+   */
   ssoToken: string;
+
+  /**
+   * The list of already passed messages to the agent
+   */
   messages: BaseMessage[];
 }
 
+/**
+ * Main dialog for the agent bot. Every conversation with the bot will be handled by this dialog.
+ */
 export class AgentDialog extends ComponentDialog {
-
 
   private dedupStorage: Storage;
   private dedupStorageKeys: string[];
@@ -59,10 +76,10 @@ export class AgentDialog extends ComponentDialog {
     };
   
     const delegatedAuthConfig: OnBehalfOfCredentialAuthConfig = {
-      authorityHost: process.env.AAD_APP_OAUTH_AUTHORITY_HOST,
-      clientId: process.env.AAD_APP_CLIENT_ID,
-      tenantId: process.env.AAD_APP_TENANT_ID,
-      clientSecret: process.env.AAD_APP_CLIENT_SECRET
+      authorityHost: oboAuthConfig.authorityHost,
+      clientId: oboAuthConfig.clientId,
+      tenantId: oboAuthConfig.tenantId,
+      clientSecret: oboAuthConfig.clientSecret
     };
 
     const initialLoginEndpoint = `https://${config.botDomain}/auth-start.html`;
@@ -77,6 +94,7 @@ export class AgentDialog extends ComponentDialog {
     this.addDialog(loginDialog);
     this.addDialog(new HumanInTheLoopDialog(HUMAN_IN_THE_LOOP_DIALOG));
 
+    // Dialogs will be executed in sequence in the order they are added.
     this.addDialog(
       new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
         this.loginStep.bind(this),
@@ -86,7 +104,7 @@ export class AgentDialog extends ComponentDialog {
       ])
     );
 
-    this.initialDialogId = MAIN_WATERFALL_DIALOG;0
+    this.initialDialogId = MAIN_WATERFALL_DIALOG;
     this.dedupStorage = dedupStorage;
     this.dedupStorageKeys = [];
   }
@@ -104,14 +122,24 @@ export class AgentDialog extends ComponentDialog {
 
   //#region Dialog steps
 
-  public async loginStep(stepContext: WaterfallStepContext) {
+  /**
+   * Login the current user. The first, time, the user will have to consent directly from the Teams conversation
+   * @param stepContext The waterfall step context
+   * @returns The turn result
+   */
+  public async loginStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
       const turnContext = stepContext.context as TurnContext;
       stepContext.options['text'] = this.getActivityText(turnContext.activity);
 
       return await stepContext.beginDialog(TEAMS_SSO_PROMPT_ID);
   }
 
-  public async dedupStep(stepContext: WaterfallStepContext) {
+  /**
+   * Deduplicate the token exchange request. If the user is logged in from multiple Teams clients, only one of them should be processed.
+   * @param stepContext The waterfall step context
+   * @returns The turn result 
+   */
+  public async dedupStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
       const tokenResponse = stepContext.result;
       // Only dedup after ssoStep to make sure that all Teams client would receive the login request
       if (tokenResponse && (await this.shouldDedup(stepContext.context))) {
@@ -120,7 +148,13 @@ export class AgentDialog extends ComponentDialog {
       return await stepContext.next(tokenResponse);
   }
 
-  public async agentResponseStep(stepContext: WaterfallStepContext) : Promise<DialogTurnResult> {
+  /**
+   * Process the user input and invoke the agent to get a response.
+   * The agent will use the tools to get the information needed to answer the user question.
+   * @param stepContext The waterfall step context
+   * @returns The turn result 
+   */
+  public async agentResponseStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
 
       const tokenResponse = stepContext.result;
       if (!tokenResponse || !tokenResponse.ssoToken) {
@@ -129,11 +163,12 @@ export class AgentDialog extends ComponentDialog {
       
       const context: TurnContext = stepContext.context;
       
+      // When engaged directy in a conversation, the bot will always use delegated permissions through an on-behalf-of flow (aka. obo).
       const oboCredential = new OnBehalfOfUserCredential(tokenResponse.ssoToken, oboAuthConfig);
       const authProvider = new TokenCredentialAuthenticationProvider(
           oboCredential,
           {
-              scopes: [MicrosoftGraphScopes.TasksReadWrite, MicrosoftGraphScopes.SiteReadAll],
+              scopes: [MicrosoftGraphScopes.TasksReadWrite, MicrosoftGraphScopes.SiteReadAll] // Delegated scopes
           }
       );
 
@@ -152,7 +187,7 @@ export class AgentDialog extends ComponentDialog {
           { configurable: runnableConfig}
       );
 
-      // Check invoked tools
+      // Check tools selected by the agent
       const toolCalls = llmResponse.messages[llmResponse.messages.length-1].tool_calls
     
       // Data to be passed across dialogs
@@ -162,9 +197,9 @@ export class AgentDialog extends ComponentDialog {
         messages: llmResponse.messages
       } as IAgentStepData;
       
+      // Determine which tool needs a human in the loop and an explicit confirmation to be executed
       for (const selectedTool of toolCalls) {
       
-        // Determine which tool needs a human in the loop and an explicit confirmation to be executed
         switch (selectedTool?.name) {
 
           case 'UpdateTaskCompletion':
@@ -175,19 +210,25 @@ export class AgentDialog extends ComponentDialog {
         }
       }
       
-      // If tools has been selected, we finalize the agent answer by invoking them
+      // If tools has been selected, we finalize the agent answer by invoking them.
       if (toolCalls.length > 0) {
         await this.finalizeAgentAnswer(stepContext, modelData);
       } else {
+        // If no tools selected, we just send the answer to the user
         await AnswerFormatHelper.formatAgentResponse(stepContext.context as TurnContext, llmResponse);
       }
 
       return await stepContext.endDialog();
   }
 
+  /**
+   * Finazlize the agent answer after a Human-in-the-loop step.
+   * @param stepContext The waterfall step context
+   * @returns The turn result
+   */
   public async finalizeResponseStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
 
-    // Get output from human in the loop step dialog
+    // Get output from human-in-the-loop step)
     const { userAnswer, modelData} = stepContext.result;
 
     if (userAnswer) {
@@ -199,8 +240,12 @@ export class AgentDialog extends ComponentDialog {
     return await stepContext.endDialog();
   }
 
-  //#endregion
-
+  /**
+   * Finalize the agent answer by invoking the selected tools and sending the answer to the user.
+   * @param stepContext The waterfall step context
+   * @param llmData the data to be passed to the agent
+   * @returns The turn result
+   */
   private async finalizeAgentAnswer(stepContext: WaterfallStepContext, llmData: IAgentStepData): Promise<void>  {
     
     const context: TurnContext = stepContext.context;
@@ -213,12 +258,14 @@ export class AgentDialog extends ComponentDialog {
         }
     );
 
+    // Data to be passed to tools
     const runnableConfig = {
       user_id: context.activity.from.aadObjectId,
       authProvider: authProvider,
       thread_id: context.activity.conversation!.id 
     };
 
+    // Tools to be invoked by the agent
     const toolsByName = {
       [AgentTools.GetTasksForUsers]: getUserTasks,
       [AgentTools.GetTaskDetails]: getTaskDetails,
@@ -238,14 +285,18 @@ export class AgentDialog extends ComponentDialog {
       messages.push(toolMessage);
     }
     
+    // Invoke all selected tools taking into account previous messages
     let llmResponse = await this.agent.invoke(
       { messages: messages },
       { configurable: runnableConfig }
     );
 
-    // Special case where the getTaskStructuredOutput can be called after LLM reasoning based on previous tools output (GetTaskDetails + SearchTaskReferenceContent)
-    // In that case, we invoke selected tools again to get the fina lansqwer
-    // Ths is a specific to this solution for demo purpose. Normally we would have to validate selected tools everytime and until there none left.
+    // Special case where the getTaskStructuredOutput can be called after LLM reasoning based on previous tools output (GetTaskDetails + SearchTaskReferenceContent), for instance:
+    // [ToolMessage]
+    // [ToolMessage]
+    // [AIMessage]
+    // In that case, we invoke selected tools again to get the final answer
+    // Ths is a specific to this solution for demo purpose. IDeally we would have to validate selected tools everytime and until there are none left.
     const toolCalls = llmResponse.messages[llmResponse.messages.length-1].tool_calls;
     
     if (toolCalls.length > 0) {
@@ -274,8 +325,11 @@ export class AgentDialog extends ComponentDialog {
         (key) => key.indexOf(conversationId) < 0
       );
   }
+
+  //#endregion
   
-  //#region Utility methods  
+  //#region Utility methods
+
   // If a user is signed into multiple Teams clients, the Bot might receive a "signin/tokenExchange" from each client.
   // Each token exchange request for a specific user login will have an identical activity.value.Id.
   // Only one of these token exchange requests should be processed by the bot.  For a distributed bot in production,

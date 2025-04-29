@@ -3,7 +3,7 @@ import { BlobsStorage } from "botbuilder-azure-blobs";
 import { IBotUserInfosStorageValue } from "../models/IBotSettings";
 import { BaseMessage, HumanMessage, SystemMessage } from '@langchain/core/messages'
 import { AppCredential } from "@microsoft/teamsfx";
-import { agentSystemPrompt, AgentTools, MicrosoftGraphScopes } from "../common/Constants";
+import { AgentTools, MicrosoftGraphScopes } from "../common/Constants";
 import { AgentDialog} from "../dialogs/agentDialog";
 import { appAuthConfig } from "../config";
 import { TokenCredentialAuthenticationProvider } from "@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials";
@@ -47,7 +47,8 @@ export class EmployeeOnboardingAgent extends TeamsActivityHandler {
         
         this.onInstallationUpdateAdd(async (context, next) => {
 
-            // Store user id
+            // Store user conversation reference on the first installation
+            // IT will be used for proactive notifications
             let userStore = await this._userStorage.read([context.activity.from.aadObjectId]);
 
             userStore[context.activity.from.aadObjectId] = {
@@ -64,6 +65,7 @@ export class EmployeeOnboardingAgent extends TeamsActivityHandler {
         });
 
         this.onMembersAdded(async (context, next) => {
+
             const membersAdded = context.activity.membersAdded;
 
             for (const member of membersAdded) {
@@ -74,7 +76,7 @@ export class EmployeeOnboardingAgent extends TeamsActivityHandler {
                     // If we are in Microsoft Teams
                     if (context.activity.channelId === 'msteams') {
 
-                        // Send a message with an @Mention
+                        // Send a welcome message with an @Mention
                         const mention: Mention = {
                             mentioned: member,
                             text: `<at>${memberInfos.name}</at>`,
@@ -112,7 +114,12 @@ export class EmployeeOnboardingAgent extends TeamsActivityHandler {
         await this.agentDialog.run(context, this.dialogState);
     }
 
-    public async notifyTasksSummary(context: TurnContext, userId: string): Promise<string> {
+    /**
+     * * Notify the user with a summary of his tasks
+     * @param context The turn context of the Activity
+     * @param userId The AAD Object ID of the user to notify
+     */
+    public async notifyTasksSummary(context: TurnContext, userId: string): Promise<void> {
         
         // Use application credentials as we don't have a user interaction
         const appCredential = new AppCredential(appAuthConfig);           
@@ -120,8 +127,10 @@ export class EmployeeOnboardingAgent extends TeamsActivityHandler {
             scopes: [MicrosoftGraphScopes.Default],
         });
 
+        // Get information about the current user according to its AAD ID
         const member = await TeamsInfo.getMember(context, userId);
 
+        // Configuration to pass to LLM tools
         const runnableConfig = {
             user_id: context.activity.from.aadObjectId,
             authProvider: authProvider,
@@ -138,6 +147,7 @@ export class EmployeeOnboardingAgent extends TeamsActivityHandler {
             { configurable: runnableConfig }
         );
       
+        // Because the agent is configured to stop before calling any tools, we need to execute them manually. Not need to confirm anything here as we already know the tool and expected output.
         const toolsByName = {
             [AgentTools.GetTasksForUsers]: getUserTasks,
             [AgentTools.GetTaskDetails]: getTaskDetails,
@@ -158,6 +168,7 @@ export class EmployeeOnboardingAgent extends TeamsActivityHandler {
             { configurable: runnableConfig }
         );
 
+        // Format the response to an adaptive card
         await AnswerFormatHelper.formatAgentResponse(context, llmResponse);
         
         return;

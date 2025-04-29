@@ -1,18 +1,10 @@
 import { AppCredentialAuthConfig, OnBehalfOfCredentialAuthConfig } from "@microsoft/teamsfx";
 
 export const config = {
-  MicrosoftAppId: process.env.BOT_ID,
-  MicrosoftAppType: process.env.BOT_TYPE,
-  MicrosoftAppTenantId: process.env.BOT_TENANT_ID,
-  MicrosoftAppPassword: process.env.BOT_PASSWORD,
+  botId: process.env.BOT_ID,
+  botPassword: process.env.BOT_PASSWORD,
   botDomain: process.env.BOT_DOMAIN,
-  authorityHost: process.env.AAD_APP_OAUTH_AUTHORITY_HOST,
-  clientId: process.env.AAD_APP_CLIENT_ID,
-  tenantId: process.env.AAD_APP_TENANT_ID,
-  clientSecret: process.env.AAD_APP_CLIENT_SECRET,
-  azureOpenAIKey: process.env.AZURE_OPENAI_API_KEY,
-  azureOpenAIEndpoint: process.env.AZURE_OPENAI_ENDPOINT,
-  azureOpenAIDeploymentName: process.env.AZURE_OPENAI_DEPLOYMENT_NAME
+  blobConnectionString: process.env.BLOB_CONNECTION_STRING
 };
 
 // Auth configuration for client credentials flow
@@ -35,10 +27,20 @@ export const oboAuthConfig: OnBehalfOfCredentialAuthConfig = {
 export const spConfig = {
   siteId: process.env.SP_EMPLOYEEONBOARDING_SITE_ID,
   listId: process.env.SP_EMPLOYEEONBOARDING_LIST_ID
-}
+};
 
+// Azure OpenAI configuration
+export const openaiConfig = {
+  azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
+  azureOpenAIApiInstanceName: process.env.AZURE_OPENAI_ENDPOINT,
+  azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_DEPLOYMENT_NAME,
+  azureOpenAIApiVersion: process.env.AZURE_OPENAI_API_VERSION,
+  azureOpenAIEmbeddingDeploymentName: process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
+};
+
+// Azure AI Search configuration
 export const searchConfig = {
-  endpoint: process.env. AZSEARCH_ENDPOINT,
   indexName: process.env. AZSEARCH_INDEX_NAME,
-  apiKey: process.env.AZSEARCH_API_KEY,
-} 
+  azureAISearchApiKey: process.env.AZSEARCH_API_KEY,
+  azureAISearchEndpoint: process.env.AZSEARCH_ENDPOINT
+}; 

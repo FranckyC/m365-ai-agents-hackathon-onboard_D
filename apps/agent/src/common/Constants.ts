@@ -1,14 +1,17 @@
 import { SystemMessage } from '@langchain/core/messages';
 
+// Containers in the Azure Blob Storage 
 export enum StorageContainers {
     Users = 'users'
 }
 
+// Variables to be used in the tools context
 export enum ToolContextVariables {
     AuthProvider = "authProvider",
     PlannerPlanId = "planId",
 }
 
+// List of tools used by the agent
 export enum AgentTools {
     GetTasksForUsers = 'GetTasksForUsers',
     GetTaskDetails = 'GetTaskDetails',
@@ -18,12 +21,16 @@ export enum AgentTools {
     GetTaskStructuredOutput = 'GetTaskStructuredOutput'
 }
 
+// Microsoft Graph scopes used by the agent
+// The default scope is used for app-only authentication (client credentials flow)
 export enum MicrosoftGraphScopes {
     TasksReadWrite = 'Tasks.ReadWrite',
     SiteReadAll = 'Sites.Read.All',
     Default = 'https://graph.microsoft.com/.default'
 }
 
+// Main system prompt for the agent
+// It contains the context, objective, capabilities and instructions for the agent
 export const agentSystemPrompt = new SystemMessage(`
     # CONTEXT #
     You are a HR assistant named "Onboard-D" helping new employees in their onboarding journey.
