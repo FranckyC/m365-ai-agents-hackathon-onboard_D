@@ -1,6 +1,6 @@
 # Microsoft AI Agents Hackathon 2025 - Onboard_D solution
 
-Meet **Onboard-D**, an amployee onboarding AI solution built for the Microsoft AI Agents Hackathon 2025.
+Meet **Onboard_D**, an amployee onboarding AI solution built for the Microsoft AI Agents Hackathon 2025.
 
 <p align="center">
     <img width="200px" src="./documentation/docs/img/onboard_d.png">
