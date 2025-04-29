@@ -2,7 +2,7 @@
 
 Meet **Onboard-D**, an amployee onboarding AI solution built for the Microsoft AI Agents Hackathon 2025.
 
-> Live 📖documentation of the solution is available [here]() <br/><br/>
+> Live 📖documentation of the solution is available [here](https://franckyc.github.io/m365-ai-agents-hackathon-onboard_D/) <br/><br/>
 > You can also build the documentation locally from the `./documentation` folder running the following commands: <br/>
 > - `npm i` <br/>
 > - `npm run start`
@@ -38,4 +38,4 @@ Creating agents that tell jokes or generate cat images can be fun but not that u
 - Handling agent tool outputs and artifacts to display data in adaptive cards.
 - Handling Human-In-The-Loop pattern in pair with the Bot Framework for sensitive actions, like POST requests initiated by tools.
 
-Ready to start? [Follow the guide 📖](./documentation//docs//1-index.mdx)!
+Ready to start? [Follow the guide 📖](https://franckyc.github.io/m365-ai-agents-hackathon-onboard_D/)!
