@@ -18,6 +18,7 @@ import LogicAppTest from './img/test_logi_app.png';
 import LogicAppUpdate from './img/add_logic_app.png';
 import LogicAppParams from './img/logic_app_params.png';
 import LogicAppConnections from './img/logic_app_connections.png';
+import AzureSearchEndpoint from './img/search_instance_url.png';
 
 # Setup the environment
 
@@ -29,9 +30,13 @@ For the purpose of the hackathon demo, the deployment and preparation is done ma
 ⏱️**Time required: 20 to 30 min (sorry for that, but good news, that is pretty straightforward)**
 :::
 
+## Clone the GitHub repository
+
+First, clone the GitHub repository from [https://github.com/FranckyC/m365-ai-agents-hackathon-onboard_D](https://github.com/FranckyC/m365-ai-agents-hackathon-onboard_D)
+
 ## Create a new team in Teams
 
-The first operation to do is to create a new Team **Contoso HR Onboarding Management** in Microsoft Teams with default _Employee onboarding_ channel:
+- Create a new Team **Contoso HR Onboarding Management** in Microsoft Teams with default _Employee onboarding_ channel:
 
 <div className="flex justify-center">
     <img className="w-[50%]" src={ContosoTeam}/>
@@ -41,11 +46,12 @@ The first operation to do is to create a new Team **Contoso HR Onboarding Manage
 
 ### 1. Create a new Entra ID application
 
-To consume the Microsoft Graph API to access Microsoft Planner and SharePoint data, you'll need to register a dedicated Entra ID application. Once created, generate a client secret. This one will be used in the agent configuration in the `SECRET_AAD_APP_CLIENT_SECRET` variable (`env/env.local.user` file).
+To consume the Microsoft Graph API to access Microsoft Planner and SharePoint data, you'll need to register a dedicated Entra ID application.
+- Once created, generate a client secret. This one will be used in the agent configuration in the `SECRET_AAD_APP_CLIENT_SECRET` variable (`env/env.local.user` file).
 
 !["Entra ID application"](./img/entra_id_app.png)
 
-The application permissions will be configured automatically during the provisioning sequence via Teams Toolkit according to the `aad.manifest.json` file. The following API permissions are used by the application:
+- Configure API permissions in the app. The following API permissions are used by the application.
 
 | API permission    | Type        | Used for                                                                                        |
 |-------------------|-------------|-------------------------------------------------------------------------------------------------|
@@ -55,11 +61,15 @@ The application permissions will be configured automatically during the provisio
 | `Sites.Read.All`  | Application | Get associated plan ID for the user. Could be restricted to `Lists.SelectedOperations.Selected`. |
 | `Group.Read.All`  | Application | Run the `import-tasks.ps1` script to provision sample plan.                                      |
 
+:::warning
+Don't forget to grant admin consent.
+:::
+
 ### 2. Create Azure resources
 
 #### Create a new resource group
 
-Create a new Azure resource group. 
+Create a new Azure resource group.
 
 :::note Azure Region
 Use **North Central US** region for resources for the purpose of the demo.
@@ -100,18 +110,28 @@ Use the F0 pricing tiers for demo purpose.
 
 !["Azure AI Search index schema"](./img/azureai_search_schema.png)
 
+:::warning Search schema fields
+Pay attention to the fields properties (i.e. retrievable, searchable, etc.), especially for the `content` property). Once the index is created you can't change those unless your delete and recreate the index.
+:::
+
 - For the **embeddings** field (Collection(Edm.Single)), create a new vector profile using default settings. For the vectorizer, use the Azure OpenAI resource created earlier with API key access and the `text-embedding-3-large` model:
 
 <div className="flex justify-center">
     <img className="w-[30%]" src={AzureSearchVectorizer}/>
 </div>
 
-> Do not create compression confioguration.
+> Do not create compression configuration.
 
 - Finally, copy the API Key value from the **Keys** settings. This value will be used in the `.env.local.user` file as `SECRET_AZURE_SEARCH_API_KEY` variable.
 
 <div className="flex justify-center">
-    <img className="w-[70%]" src={AzureSearchApiKeys}/>
+    <img className="w-[50%]" src={AzureSearchApiKeys}/>
+</div>
+
+- Copy also the search instance URL. It will be used in the `AZSEARCH_ENDPOINT` variable.
+
+<div className="flex justify-center">
+    <img className="w-[50%]" src={AzureSearchEndpoint}/>
 </div>
 
 #### Create the Logic App to index documents
@@ -137,7 +157,7 @@ Use the F0 pricing tiers for demo purpose.
     <img className="w-[70%]" src={LogicAppUpdate}/>
 </div>
 
-- Save the workflow. 
+- Save the workflow.
 - In the 'Documents' library of the SharePoint site , upload the two sample documents provided from the folder `deploy/data`. If your Logic App is correctly configured, documents should be indexed in Azure AI Search automatically when added.
 
 <div className="flex justify-center">
@@ -168,7 +188,7 @@ In SharePoint, column internal names are set at column creation. Once set, you a
 Use the `deploy/import-tasks.ps1` script to automatically import a sample Microsoft Planner onboarding plan in the Microsoft 365 group:
 
 ```powershell
-Install-Module Microsoft.Graph.Planner -Scope CurrentUser -Repository PSGallery -Force           
+Install-Module Microsoft.Graph.Planner -Scope CurrentUser -Repository PSGallery -Force          
 
 $ClientId="{Client ID of the Entra ID app}"
 $TenantId="{Tenant ID}"
@@ -203,7 +223,7 @@ The Power Automate flow for new employee configuration is deployed as a Power Pl
 1. Go to [https://make.powerautomate.com/](https://make.powerautomate.com/), choose the environment you want to use and then go to 'Solutions'.
 2. Import the `deploy/onboard_dNewEmployeeSetup.zip` solution file and click 'Next' (let _'Enable Plugin steps and flows included in the solution'_ option enabled).
 3. Select _"Review and adjust all connections"_ and configure connections according to your environment (SharePoint, Planner and Office 365).
-4. Fill the workflow paramaters according to your environment: 
+4. Fill the workflow paramaters according to your environment:
 
 !["Power Automate paramters"](./img/power_automate_parameters.png)
 
@@ -237,4 +257,4 @@ To get the absolute path of a file in a SharePoint library, select the document 
 
 :::
 
-You are now ready to [test the agent locally from Visual Studio Code and Teams Toolkit](./agent-testing)!
+You are now ready to [test the agent locally from Visual Studio Code and Teams Toolkit](./agent-testing)!cd

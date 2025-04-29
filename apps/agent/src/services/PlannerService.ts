@@ -65,7 +65,6 @@ export class PlannerService {
     public async updateTask(taskId: string, percentComplete: number): Promise<void> {
 
         try {        
-            // TODO add Task.ReadWrite to the app
             const response = await this._graphClient.api(`/planner/tasks/${taskId}?$expand=details`).get();
         
             await this._graphClient.api(`/planner/tasks/${taskId}`).headers({

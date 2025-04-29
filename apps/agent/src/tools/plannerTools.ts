@@ -44,7 +44,6 @@ export const getTaskDetails = tool(
 
   async (args: { taskId: string}, config: RunnableConfig) => {
 
-      // Initialize Graph client instance with authProvider (can be app or delegated permissions her depending on the caller)
       const graphClient = Client.initWithMiddleware({ authProvider: config.configurable.authProvider });
       const plannerService = new PlannerService(graphClient);
 
@@ -69,7 +68,6 @@ export const updateTaskCompletion = tool(
 
   async (args: { taskId: string, percentComplete: number}, config: RunnableConfig) => {
 
-      // Initialize Graph client instance with authProvider (can be app or delegated permissions her depending on the caller)
       const graphClient = Client.initWithMiddleware({ authProvider: config.configurable.authProvider });
       const plannerService = new PlannerService(graphClient);
 

@@ -44,11 +44,8 @@ export class AgentDialog extends ComponentDialog {
   private dedupStorage: Storage;
   private dedupStorageKeys: string[];
 
-  // Instance of our AI agent
   private agent: any;
 
-  // Developer controlls the lifecycle of credential provider, as well as the cache in it.
-  // In this sample the provider is shared in all conversations
   constructor(dedupStorage: Storage, agent: any) {
 
     super(AGENT_DIALOG);

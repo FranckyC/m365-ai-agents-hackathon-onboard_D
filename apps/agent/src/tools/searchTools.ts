@@ -1,11 +1,8 @@
-import { RunnableConfig } from "@langchain/core/runnables";
 import { tool } from "@langchain/core/tools";
-import { searchConfig } from "../config";
 import { AzureAISearchDataSourceOptions, AzureSearchService } from "../services/AzureSearchService";
 import { z } from "zod";
 import { AgentTools } from "../common/Constants";
 import { ISearchResult } from "../models/ISearchResult";
-import { join } from "path";
 
 const searchOptions: AzureAISearchDataSourceOptions = {
   azureAISearchApiKey: process.env.AZSEARCH_API_KEY,

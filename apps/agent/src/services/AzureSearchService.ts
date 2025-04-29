@@ -46,7 +46,6 @@ export class AzureSearchService {
             "url"
         ];
 
-        // hybrid search
         const queryVector: number[] = await this.getEmbeddingVector(query);
         const searchResults = await this.searchClient.search(query, {
             searchFields: ["content"],
@@ -58,7 +57,6 @@ export class AzureSearchService {
                         kind: "vector",
                         fields: ["embeddings"],
                         kNearestNeighborsCount: 2,
-                        // The query vector is the embedding of the user's input
                         vector: queryVector
                     }
                 ]

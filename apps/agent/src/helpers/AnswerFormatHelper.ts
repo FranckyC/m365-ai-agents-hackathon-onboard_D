@@ -6,7 +6,6 @@ import { findLastIndex } from "lodash";
 import NotificationMessageAdaptiveCard from "../cards/reminder_notification.json";
 import TaskDetailsAdaptiveCard from "../cards/task_details.json";
 import { AgentTools } from "../common/Constants";
-import { IResponseFormat } from "../models/IResponseFormat";
 
 export class AnswerFormatHelper {
 
