@@ -3,7 +3,7 @@
 Meet **Onboard-D**, an amployee onboarding AI solution built for the Microsoft AI Agents Hackathon 2025.
 
 <p align="center">
-    <img src="./documentation/docs/img/onboard_d.png">
+    <img width="200px" src="./documentation/docs/img/onboard_d.png">
 </p>
 
 > 📖Live documentation of the solution is available [here](https://franckyc.github.io/m365-ai-agents-hackathon-onboard_D/) <br/>
