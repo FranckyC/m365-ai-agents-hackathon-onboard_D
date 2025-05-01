@@ -50,7 +50,6 @@ Creating agents that tell jokes or generate cat images can be fun but not that u
 
 ✔️Sending proactive agent notifications to users.
 
-
 ✔️Handling agent authentication with both delegated (SSO) and application permissions (proactive notifications) with Microsoft Teams and the Microsoft Graph API.
 
 ✔️Handling multiple AI tools whithin an agent performing different set of actions.

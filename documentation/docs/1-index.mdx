@@ -18,7 +18,7 @@ import Igor from "./img/people/igor.png";
 
 # Meet Onboard_D, your HR onboading coach! 
 
-This solutions has been made as part of the [Microsoft AI Agents Hackathon](https://microsoft.github.io/AI_Agents_Hackathon/) held in April 2025.
+This solution has been made as part of the [Microsoft AI Agents Hackathon](https://microsoft.github.io/AI_Agents_Hackathon/) held in April 2025.
 
 <div className='flex space-x-4 justify-center items-center'>
     <div><img src={MsBanner} /></div>
@@ -130,14 +130,14 @@ Before interacting with the agent, the onboarding plan for the new employee need
 1. First, HR staff create a new Planner plan in the group that will act as default oboarding plan template for all employees.
 2. When a new employee is hired, HR staff add a new entry in a dedicated SharePoint employees list with the planned start date.
 3. A Power Automate is automatically triggered performing the following actions:
-    - Get the onboarding template and and duplicate it for the new employee with tasks assinged to him.
+    - Get the onboarding template and and duplicate it for the new employee with tasks assigned to him.
     - Wait until the employee start date is reached. When reached, sends notification to the agent every X days (10 minutes in that demo) for that specific employee.
 
 ### Index HR content
 
-This part is aimed to index HR so employees can ask general HR related questions to the agent. The index is also used to retrieve specific documents associated to tasks as references (for instance documents explaning a task in depth beyond the traditionnal description field).
+This part is aimed to index relevant documents so employees can ask general HR related questions to the agent (like policies). The index is also used to retrieve specific documents associated to tasks as references (for instance documents explaning a task in depth beyond the traditionnal description field).
 
-1. HR Staff uploads relevant document in a dedicated SharePoint library
+1. HR Staff uploads relevant document in a dedicated SharePoint library.
 2. Optionally, they can add the document as reference for a particular tasks in the template, giving employee material to clearly understand the task.
 3. When a document is updated in the library, a Logic App is triggered, indexing the document in Azure AI Search, using Azure Open AI to generate vector embeddings.
 
@@ -159,7 +159,7 @@ This solution is built and/or involves the following technologies:
 | Azure AI Search | Indexing HR documents from SharePoint | 
 | Microsoft Planner | Onboarding plan definiton for both template and users.
 | SharePoint | Store HR documents in a library adn mange employes onboarding list. |
-| Microsoft Bot Framework | User interactions wthihin Microsoft Teams handling dialogs and SSO authentication.
+| Microsoft Bot Framework | User interactions whithin Microsoft Teams handling dialogs and SSO authentication.
 | Langchain JS | LLM Orchestration with the Bot Framework (tools definition and calls, "human-in-the-loop") |
 | Power Automate | Employee plan setup and agent notifications.
 | Azure Logic App | HR documents indexing logic. 
